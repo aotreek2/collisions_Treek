@@ -70,7 +70,7 @@ public class Turrent : MonoBehaviour
             Destroy(acidSpit, 3f);
 
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), 3f);
+            Invoke(nameof(ResetAttack), 4f);
         }
         else
         {

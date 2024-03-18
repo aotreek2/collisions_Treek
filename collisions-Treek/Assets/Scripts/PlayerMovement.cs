@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,9 +32,11 @@ public class PlayerMovement : MonoBehaviour
     public Transform playerHand;
     private bool isHolding;
     public GameObject canvas;
+    [SerializeField] private Material red;
+    [SerializeField] private TMP_Text healthTxt, scoreTxt;
 
+    [Header("Script Related")]
     CharacterController characterController;
-
     [SerializeField] private Laser createdLaser;
     [SerializeField] private Turrent createdTurret;
     [SerializeField] private Manager createdManager;
@@ -127,16 +130,22 @@ public class PlayerMovement : MonoBehaviour
 
             else if (hit.collider.name == "Button 1")
             {
+                Renderer renderer = hit.collider.gameObject.GetComponent<Renderer>();
+                renderer.material = red;
                 createdLaser.DisableLasers();
             }
 
             else if (hit.collider.name == "Button 2")
             {
+                Renderer renderer = hit.collider.gameObject.GetComponent<Renderer>();
+                renderer.material = red;
                 createdTurret.isOnline = false;
             }
 
             else if (hit.collider.name == "Button 3")
             {
+                Renderer renderer = hit.collider.gameObject.GetComponent<Renderer>();
+                renderer.material = red;
                 createdLaser.buttonIsPressed = true;
             }
         }
@@ -164,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Hit PickUp");
             createdPlayer.GainScore(1);
+            scoreTxt.text = ": " + createdPlayer.Score + "/10";
             Debug.Log(createdPlayer.Score);
             Destroy(other.gameObject);
 
@@ -178,6 +188,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Hit Trap");
             createdPlayer.TakeDamage(20);
+            healthTxt.text = ": " + createdPlayer.Health;
             if (createdPlayer.Health <= 0)
             {
                 createdManager.Death();

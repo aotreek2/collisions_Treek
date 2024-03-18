@@ -180,8 +180,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Collect the ten bananas to win the game, go through traps and climb boxes
-    to get some!
+  m_text: 'Collect  ten bananas to win the game, go through and disable traps, climb,
+    and move boxes to find some! '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.7
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -556,6 +556,7 @@ MonoBehaviour:
   resultTxt: {fileID: 0}
   helpPanel: {fileID: 1726867548}
   mainPanel: {fileID: 1491672635}
+  resultsPanel: {fileID: 0}
 --- !u!4 &249233319
 Transform:
   m_ObjectHideFlags: 0

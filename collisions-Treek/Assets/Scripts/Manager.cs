@@ -31,6 +31,7 @@ public class Manager : MonoBehaviour
         else if(scene.name == "MainGame")
         {
             resultsPanel.SetActive(false);
+            Time.timeScale = 1f;
         }
         
     }
@@ -50,10 +51,6 @@ public class Manager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else
-        {
-            Time.timeScale = 1;
-        }
     }
 
     public void Death()
@@ -68,10 +65,6 @@ public class Manager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else
-        {
-            Time.timeScale = 1;
-        }
     }
 
     public void OnPlayButtonClicked()
@@ -81,6 +74,7 @@ public class Manager : MonoBehaviour
 
     public void OnMenuButtonClicked()
     {
+        resultsPanel.SetActive(false);
         SceneManager.LoadScene("MainMenu");
     }
 
