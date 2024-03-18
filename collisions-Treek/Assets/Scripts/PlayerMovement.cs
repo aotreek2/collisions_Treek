@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     float rotationX = 0;
 
     public bool canMove = true;
+    private bool hasWon;
+    private bool hasDied;
 
     [Header("Pickup Related")]
     public Transform playerHand;
@@ -137,14 +139,7 @@ public class PlayerMovement : MonoBehaviour
 
             else if (hit.collider.name == "Button 3")
             {
-                createdManager.buttonIsPressed = true;
-            }
-
-            else if (hit.collider.tag == "PickUp")
-            {
-                Debug.Log("Hit PickUp");
-                createdPlayer.GainScore(1);
-                Debug.Log(createdPlayer.Score);
+                createdLaser.buttonIsPressed = true;
             }
         }
     }
@@ -173,12 +168,23 @@ public class PlayerMovement : MonoBehaviour
             createdPlayer.GainScore(1);
             Debug.Log(createdPlayer.Score);
             Destroy(other.gameObject);
+
+            if(createdPlayer.Score == 10)
+            {
+                createdManager.Win();
+                lookSpeed = 0;
+            }
         }
 
         if (other.gameObject.tag == "Trap")
         {
             Debug.Log("Hit Trap");
             createdPlayer.TakeDamage(20);
+            if (createdPlayer.Health <= 0)
+            {
+                createdManager.Death();
+                lookSpeed = 0;
+            }
             Debug.Log(createdPlayer.Health);
         }
     }

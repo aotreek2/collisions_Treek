@@ -9,48 +9,94 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Manager : MonoBehaviour
 {
-    private Player createdPlayer;
-    private GameObject player;
-    [SerializeField] private GameObject[] repeatedLasers;
-    private float timer;
-    public bool buttonIsPressed;
+    [SerializeField] private TMP_Text resultTxt;
+    [SerializeField] private GameObject helpPanel, mainPanel, resultsPanel;
+    Scene scene;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        HandleLaserTiming();
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (scene.name == "MainMenu")
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            helpPanel.SetActive(false);
+        }
+        else if(scene.name == "MainGame")
+        {
+            resultsPanel.SetActive(false);
+        }
+        
     }
 
-    private void HandleLaserTiming()
+    private void Update()
     {
-        timer += Time.deltaTime;
-
-        // Check if the timer has reached the toggle interval
-        if (timer >= 2f && !buttonIsPressed)
-        {
-            // Reset the timer
-            timer = 0f;
-
-            // Toggle the active state of the laser
-            for (int i = 0; i < repeatedLasers.Length; i++)
-            {
-                repeatedLasers[i].SetActive(!repeatedLasers[i].activeSelf);
-            }
-        }
-        else if (buttonIsPressed == true)
-        {
-            for (int i = 0; i < repeatedLasers.Length; i++)
-            {
-                repeatedLasers[i].SetActive(false);
-            }
-        }
+        
     }
-
     public void Win()
     {
+        resultsPanel.SetActive(true);
+        resultTxt.text = "You Win!";
 
+        if (resultsPanel.activeSelf == true)
+        {
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    public void Death()
+    {
+
+        resultsPanel.SetActive(true);
+        resultTxt.text = "You Died!";
+
+        if (resultsPanel.activeSelf == true)
+        {
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    public void OnPlayButtonClicked()
+    {
+        SceneManager.LoadScene("MainGame");
+    }
+
+    public void OnMenuButtonClicked()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void OnHelpButtonClicked()
+    {
+        helpPanel.SetActive(true);
+        mainPanel.SetActive(false);
+    }
+
+    public void OnCloseButtonClicked()
+    {
+        helpPanel.SetActive(false);
+        mainPanel.SetActive(true);
+    }
+    public void OnQuitButtonClicked()
+    {
+        Application.Quit();
     }
 }
