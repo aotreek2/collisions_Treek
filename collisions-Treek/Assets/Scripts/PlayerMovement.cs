@@ -26,9 +26,7 @@ public class PlayerMovement : MonoBehaviour
     float rotationX = 0;
 
     public bool canMove = true;
-    private bool hasWon;
-    private bool hasDied;
-
+    
     [Header("Pickup Related")]
     public Transform playerHand;
     private bool isHolding;
