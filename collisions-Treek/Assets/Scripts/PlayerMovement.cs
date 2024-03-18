@@ -19,10 +19,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpPower = 7f;
     public float gravity = 10f;
 
-
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
-
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -35,12 +33,19 @@ public class PlayerMovement : MonoBehaviour
     public GameObject canvas;
 
     CharacterController characterController;
+
+    [SerializeField] private Laser createdLaser;
+    [SerializeField] private Turrent createdTurret;
+    [SerializeField] private Manager createdManager;
+    private Player createdPlayer;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        createdPlayer = new Player();
     }
 
     void Update()
@@ -93,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && isHolding == false)
         {
-            PickUp();
+            HandleRayCast();
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -105,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
-    void PickUp()
+    void HandleRayCast()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -120,6 +125,27 @@ public class PlayerMovement : MonoBehaviour
                 isHolding = true;
             }
 
+            else if (hit.collider.name == "Button 1")
+            {
+                createdLaser.DisableLasers();
+            }
+
+            else if (hit.collider.name == "Button 2")
+            {
+                createdTurret.isOnline = false;
+            }
+
+            else if (hit.collider.name == "Button 3")
+            {
+                createdManager.buttonIsPressed = true;
+            }
+
+            else if (hit.collider.tag == "PickUp")
+            {
+                Debug.Log("Hit PickUp");
+                createdPlayer.GainScore(1);
+                Debug.Log(createdPlayer.Score);
+            }
         }
     }
 
@@ -137,6 +163,24 @@ public class PlayerMovement : MonoBehaviour
         obj.GetComponent<Rigidbody>().isKinematic = false;
         playerHand.DetachChildren();
         isHolding = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "PickUp")
+        {
+            Debug.Log("Hit PickUp");
+            createdPlayer.GainScore(1);
+            Debug.Log(createdPlayer.Score);
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "Trap")
+        {
+            Debug.Log("Hit Trap");
+            createdPlayer.TakeDamage(20);
+            Debug.Log(createdPlayer.Health);
+        }
     }
 
 }

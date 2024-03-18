@@ -23,11 +23,11 @@ public class Player
     
     public void TakeDamage(int damage)
     {
-
+        Health -= damage;
     }
 
     public void GainScore(int value)
     {
-
+        Score += value;
     }
 }
